@@ -1,0 +1,12 @@
+name: iraq_mcna_dashboard
+title:
+username:
+account: rawa-mohammed
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3322365
+bundleId: 4081287
+url: https://rawa-mohammed.shinyapps.io/iraq_mcna_dashboard/
+when: 1610356538.87378
+asMultiple: FALSE
+asStatic: FALSE

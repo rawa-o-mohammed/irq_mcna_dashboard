@@ -1,0 +1,10 @@
+name: irq_mcna_dashboard
+title:
+username:
+account: j-lapp
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3257407
+bundleId: 3917673
+url: https://j-lapp.shinyapps.io/irq_mcna_dashboard/
+when: 1606616665.59446
