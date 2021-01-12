@@ -385,8 +385,22 @@ ui <- bootstrapPage(
     )
     ,
     tabPanel(
-      strong("COVID-19 Context"),
+      strong("Sectoral Findings"),
       value = "panel3",
+      icon = icon("chart-line"),
+      
+      HTML(
+        '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
+            <div class="container">
+              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
+              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
+            </div>
+          </div>'
+      )
+    ),
+    tabPanel(
+      strong("COVID-19 Context"),
+      value = "panel4",
       icon = icon("virus"),
       
       HTML(
@@ -400,7 +414,7 @@ ui <- bootstrapPage(
     ),
     tabPanel(
       strong("MSNI Findings"),
-      value = "panel4",
+      value = "panel5",
       icon = icon("info"),
       HTML(
         '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
@@ -409,230 +423,6 @@ ui <- bootstrapPage(
               <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
             </div>
           </div>'
-      )
-    ),
-    navbarMenu(
-      strong("Sectoral Findings"),
-      icon = icon("chart-line"),
-      
-      tabPanel(
-        strong(sectors[1, 1]),
-        icon = icon(sectors[1, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[2, 1]),
-        icon = icon(sectors[2, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[3, 1]),
-        icon = icon(sectors[3, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[4, 1]),
-        icon = icon(sectors[4, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[5, 1]),
-        icon = icon(sectors[5, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[6, 1]),
-        icon = icon(sectors[6, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[7, 1]),
-        icon = icon(sectors[7, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[8, 1]),
-        icon = icon(sectors[8, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[9, 1]),
-        icon = icon(sectors[9, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[10, 1]),
-        icon = icon(sectors[10, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[11, 1]),
-        icon = icon(sectors[11, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[12, 1]),
-        icon = icon(sectors[12, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[13, 1]),
-        icon = icon(sectors[13, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[14, 1]),
-        icon = icon(sectors[14, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[15, 1]),
-        icon = icon(sectors[15, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[16, 1]),
-        icon = icon(sectors[16, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      ),
-      tabPanel(
-        strong(sectors[17, 1]),
-        icon = icon(sectors[17, 2]),
-        HTML(
-          '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-        )
-      )
-      
-    )
-    ,
-    tabPanel(
-      absolutePanel(
-        id = "logo",
-        class = "card",
-        top = 0,
-        right = 15,
-        fixed = TRUE,
-        draggable = FALSE,
-        height = "auto",
-        tags$a(href = 'https://www.reach-initiative.org', tags$img(src =
-                                                                     'reach_logo.png', height = '50'))
       )
     )
   )
