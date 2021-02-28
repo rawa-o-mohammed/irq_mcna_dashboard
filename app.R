@@ -52,40 +52,6 @@ reach_grey     <- "#58585A"
 
 white          <- "#FFFFFF"
 
-#######################################################################
-# read in MCNA datasets for each pop group
-# returnee
-returnee_df <-
-  read.csv(
-    "csv_data/datasets/mcna_returnee_results.csv",
-    na.strings = c("NA", "#N/A", "N/A"),
-    encoding = "UTF-8"
-  )
-returnee_df <-
-  returnee_df %>% rename_with( ~ paste("Returnees", .x, sep = "_"))
-colnames(returnee_df)[1:2] <- c("ADM1_EN", "ADM2_EN")
-
-# in camp IDP
-idp_out_camp_df <-
-  read.csv(
-    "csv_data/datasets/mcna_idp_out_camp_results.csv",
-    na.strings = c("NA", "#N/A", "N/A"),
-    encoding = "UTF-8"
-  )
-idp_out_camp_df <-
-  idp_out_camp_df %>% rename_with( ~ paste("Out_Camp", .x, sep = "_"))
-colnames(idp_out_camp_df)[1:2] <- c("ADM1_EN", "ADM2_EN")
-
-# out of camp IDP
-idp_in_camp_df <-
-  read.csv(
-    "csv_data/datasets/mcna_idp_in_camp_results.csv",
-    na.strings = c("NA", "#N/A", "N/A"),
-    encoding = "UTF-8"
-  )
-idp_in_camp_df <-
-  idp_in_camp_df %>% rename_with( ~ paste("In_Camp", .x, sep = "_"))
-colnames(idp_in_camp_df)[1:2] <- c("ADM1_EN", "ADM2_EN")
 
 #########################################################################################
 # read in indicator code lookup tables for dropdowns in UI
@@ -105,44 +71,6 @@ irq_gov <-
 irq_gov_lines    <- st_cast(irq_gov, "MULTILINESTRING")
 irq_gov_lines    <- st_cast(irq_gov_lines, "LINESTRING")
 
-# ###################  DISTRICTS #############
-# read in district shapefile layer
-irq_dist <-
-  st_read("spatial_data/admin/irq_admbnda_adm2_cso_20190603.shp",
-          options = "ENCODING=UTF-8")
-
-############################################################################################
-########### join data to district shapefile
-irq_dist_data <-
-  left_join(irq_dist, returnee_df, by = "ADM2_EN")
-
-irq_dist_data <-
-  left_join(irq_dist_data, idp_out_camp_df, by = "ADM2_EN")
-
-irq_dist_data <-
-  left_join(irq_dist_data, idp_in_camp_df, by = "ADM2_EN")
-
-# summarize coverage for full assessment
-irq_dist_data <- irq_dist_data %>%
-  mutate(
-    All_indicative = case_when(
-      Returnees_indicative == 0 | Out_Camp_indicative == 0 ~ 0,
-      Returnees_indicative == 1 &
-        is.na(In_Camp_indicative) ~ 1,
-      Out_Camp_indicative == 1 &
-        is.na(In_Camp_indicative) ~ 1,
-      Returnees_indicative == 1 &
-        !is.na(In_Camp_indicative) ~ 2,
-      Out_Camp_indicative == 1 &
-        !is.na(In_Camp_indicative) ~ 2,
-      In_Camp_indicative == 1 &
-        is.na(Out_Camp_indicative) &
-        is.na(Returnees_indicative) ~ 1,
-      TRUE ~ NA_real_
-    )
-  )
-irq_dist_data <-
-  irq_dist_data[, colSums(is.na(irq_dist_data)) != nrow(irq_dist_data)]
 
 # My own label format function
 
@@ -162,28 +90,29 @@ my_labelFormat <- function(prefix = "",
   }
   
   function(type, ...) {
-    switch(
-      type,
-      bin = (function(cuts) {
-        n <- length(cuts)
-        if(n <= 2){
-          paste0(prefix, formatNum(0), between, formatNum(1), suffix)
-        }else{
-          paste0(
-            prefix,
-            case_when(
-              cuts[n] < n-1 ~ paste0(formatNum(cuts[-n]), "0"),
-              TRUE ~ paste0(formatNum(cuts[-n]), ".0")
-            ),
-            between,
-            case_when(
-              cuts[n] < n-1 ~ formatNum(c(cuts[2:(n-1)] - 0.01, c(cuts[n]))),
-              TRUE ~ formatNum(c(cuts[2:(n-1)] - 0.1, c(cuts[n])))
-            ),
-            suffix
-          )}
-      })(...)
-    )
+    switch(type,
+           bin = (function(cuts) {
+             n <- length(cuts)
+             if (n <= 2) {
+               paste0(prefix, formatNum(0), between, formatNum(1), suffix)
+             } else{
+               paste0(
+                 prefix,
+                 case_when(
+                   cuts[n] < n - 1 ~ paste0(formatNum(cuts[-n]), "0"),
+                   TRUE ~ paste0(formatNum(cuts[-n]), ".0")
+                 ),
+                 between,
+                 case_when(cuts[n] < n - 1 ~ formatNum(c(
+                   cuts[2:(n - 1)] - 0.01, c(cuts[n])
+                 )),
+                 TRUE ~ formatNum(c(
+                   cuts[2:(n - 1)] - 0.1, c(cuts[n])
+                 ))),
+                 suffix
+               )
+             }
+           })(...))
   }
   
 }
@@ -195,15 +124,6 @@ ui <- bootstrapPage(
   tags$head(
     HTML(
       '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />'
-    ),
-    tags$style(
-      HTML("
-                           .navbar smart-scroll {
-                           float: none !important;
-                           color: white;
-                           }
-                           }
-                           ")
     )
   ),
   navbarPage(
@@ -376,7 +296,7 @@ ui <- bootstrapPage(
           top = 60,
           left = "auto",
           right = 10,
-          width = 320,
+          width = "15%",
           
           p(htmlOutput("infobox"))
           
@@ -389,40 +309,92 @@ ui <- bootstrapPage(
       value = "panel3",
       icon = icon("chart-line"),
       
-      HTML(
-        '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
-      )
-    ),
-    tabPanel(
-      strong("COVID-19 Context"),
-      value = "panel4",
-      icon = icon("virus"),
+      tags$head(includeCSS("styles.css")),
       
       HTML(
-        '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
+        sprintf(
+          "<div class='card text-center'>
+              <div class='card-header'>
+                <ul class='nav nav-tabs card-header-tabs' >
+                  <li class='nav-item'>
+                    <a class='nav-link active' href='#'>Accountability to affected populations (AAP)</a>
+                  </li>
+                  <li class='nav-item'>
+                    <a class='nav-link active' href='#'>Durable Solution</a>
+                  </li>
+                  <li class='nav-item'>
+                    <a class='nav-link active' href='#'>Education</a>
+                  </li>
+                  <li class='nav-item'>
+                    <a class='nav-link active' href='#'>Food Security</a>
+                  </li>
+                  <li class='nav-item'>
+                    <a class='nav-link active' href='#'>Health</a>
+                  </li>
+                  <li class='nav-item'>
+                    <a class='nav-link active' href='#'>Livelihoods</a>
+                  </li>
+                  <li class='nav-item'>
+                    <a class='nav-link active' href='#'>Protection</a>
+                  </li>
+                  <li class='nav-item'>
+                    <a class='nav-link active' href='#'>Shelter & non Food items</a>
+                  </li>
+                  <li class='nav-item'>
+                    <a class='nav-link active' href='#'>WASH</a>
+                  </li>
+                </ul>
+              </div>
+              <div class='card-body'>
+                <h5 class='card-title'>Special title treatment</h5>
+                <p class='card-text'>With supporting text below as a natural lead-in to additional content.</p>
+              </div>
+            </div>"
+        )
       )
     ),
+    # tabPanel(
+    #   strong("COVID-19 Context"),
+    #   value = "panel4",
+    #   icon = icon("virus"),
+    #
+    #   HTML(
+    #     '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
+    #         <div class="container">
+    #           <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
+    #           <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
+    #         </div>
+    #       </div>'
+    #   )
+    # ),
+    # tabPanel(
+    #   strong("MSNI Findings"),
+    #   value = "panel5",
+    #   icon = icon("info"),
+    #   HTML(
+    #     '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
+    #         <div class="container">
+    #           <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
+    #           <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
+    #         </div>
+    #       </div>'
+    #   )
+    # ),
     tabPanel(
-      strong("MSNI Findings"),
-      value = "panel5",
-      icon = icon("info"),
-      HTML(
-        '<div class="jumbotron jumbotron-fluid" style="background-color:#FFFFFF; text-align:center; margin:0 auto;">
-            <div class="container">
-              <h3 class="display-4"><i class="fas fa-hammer" style="font-size:20px"></i>   Under Construction</h3>
-              <p class="lead">This Dashboard is an ongoing product and will be expanded with additional analysis based on MCNA VIII data.</p>
-            </div>
-          </div>'
+      absolutePanel(
+        id = "logo",
+        class = "card",
+        top = 0,
+        right = 15,
+        fixed = TRUE,
+        draggable = FALSE,
+        height = "auto",
+        tags$a(
+          href = 'https://www.reach-initiative.org',
+          tags$img(src =
+                     'reach_logo.png', height = '50'),
+          target = "_blank"
+        )
       )
     )
   )
@@ -557,7 +529,7 @@ server <- function(input, output, session) {
         scrollWheelZoom = FALSE,
         easeLinearity = 0.35,
         minZoom = 6.0,
-        maxZoom = 6.3,
+        maxZoom = 6.2,
       )
     ) %>%
       # add base map layer from carto DB
@@ -740,7 +712,7 @@ server <- function(input, output, session) {
         ),
         "not assessed"
       ),
-      "%"
+      ""
       ,
       select_ind_tooltip
     ) %>%
@@ -759,7 +731,7 @@ server <- function(input, output, session) {
         scrollWheelZoom = TRUE,
         easeLinearity = 0.35,
         minZoom = 6.0,
-        maxZoom = 6.3,
+        maxZoom = 6.2,
       )
     ) %>%
       # add base map layer from carto DB
@@ -879,6 +851,8 @@ server <- function(input, output, session) {
                font-family: Arial} </style>'
     )
   })
+  
+  
   
   # initialize dropdowns to default on HH Profile
   observe({

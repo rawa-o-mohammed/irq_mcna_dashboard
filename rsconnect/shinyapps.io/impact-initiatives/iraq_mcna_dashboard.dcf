@@ -1,0 +1,12 @@
+name: iraq_mcna_dashboard
+title: iraq_mcna_dashboard
+username:
+account: impact-initiatives
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3469123
+bundleId: 4194678
+url: https://impact-initiatives.shinyapps.io/iraq_mcna_dashboard/
+when: 1612767436.61858
+asMultiple: FALSE
+asStatic: FALSE
